@@ -1,38 +1,88 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>顶子儿</title>
-    <script src="./index.js"></script>
     <style>
         canvas {
             background-color: #e4b97f;
             background-image: url(./assets/bg.png);
         }
+
         body {
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
+            font-family: system-ui, "Microsoft YaHei", sans-serif;
         }
+
         #text {
             margin: 1rem;
             font-size: larger;
             font-weight: bold;
         }
+
         span {
             color: red;
+        }
+
+        #controls {
+            margin-bottom: 1rem;
+        }
+
+        #controls button,
+        #controls select {
+            font: inherit;
+            padding: .2rem .6rem;
+        }
+
+        #rules {
+            max-width: 400px;
+            margin-top: 1rem;
+            line-height: 1.7;
+        }
+
+        #rules ol {
+            padding-left: 1.2rem;
         }
     </style>
 </head>
 
 <body>
+    <div id="controls">
+        <select id="mode" title="对战模式">
+            <option value="PVP">双人对战</option>
+            <option value="PVE_BLACK">人机（你执黑）</option>
+            <option value="PVE_WHITE">人机（你执白）</option>
+        </select>
+        <button id="restart" type="button">再来一局</button>
+    </div>
     <div>
-        <canvas id="chess-board" width="400" height="400" />
+        <canvas id="chess-board" width="400" height="400"></canvas>
     </div>
     <div id="text"></div>
+    <details id="rules">
+        <summary><b>顶子儿规则</b></summary>
+        <ol>
+            <li>棋盘 4×4 共 16 个交叉点，黑白各 4 子，黑方先行。</li>
+            <li>每步沿横线或竖线把己方一子移到<b>相邻的空位</b>，不能越子、不能跳吃。</li>
+            <li>顶吃：走子后，若你的两枚棋子在同一条横线/竖线上<b>紧邻成对</b>，而这对棋子的一端紧挨着对方的棋子，对方那枚就被顶走。</li>
+            <li>只有本步走动的棋子参与形成的顶吃才结算；被顶走的只会是对方的子。</li>
+            <li>一步同时形成两处顶吃时相互抵消，一个都不吃。</li>
+            <li>满线免吃：某条横线/竖线 4 格全满时，这条线上不产生吃子。</li>
+            <li>任一方只剩 1 子即判负。</li>
+        </ol>
+    </details>
+
+    <script src="./src/constants.js"></script>
+    <script src="./src/rules.js"></script>
+    <script src="./src/state.js"></script>
+    <script src="./src/ai.js"></script>
+    <script src="./src/render.js"></script>
+    <script src="./src/main.js"></script>
 </body>
 
 </html>
